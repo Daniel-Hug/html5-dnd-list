@@ -9,13 +9,13 @@ window.DragList = (function() {
 		b.parentNode.insertBefore(a, b);
 		aParent.insertBefore(b, aSibling);
 	}
-	
+
 	function on(target, type, callback) {
 		target.addEventListener(type, callback, false);
 	}
 
 
-	
+
 	// exported global constructor
 
 	var DragList = function(options) {
@@ -29,7 +29,7 @@ window.DragList = (function() {
 		this.itemEls = [];
 		[].forEach.call(options.itemEls, this.addItem, this);
 	};
-	
+
 	DragList.prototype.addItem = function(el) {
 		this.itemEls.push(el);
 		el.draggable = true;
@@ -53,7 +53,7 @@ window.DragList = (function() {
 		var thisDragList = this;
 		function handleDragStart(e) {
 			/*jshint validthis:true*/
-			
+
 			// if handle exists don't do anything if it wasn't last clicked
 			var handle = this.querySelector(thisDragList.handleSelector);
 			if (handle && !handle.contains(clickedEl)) {
@@ -112,6 +112,6 @@ window.DragList = (function() {
 			});
 		}
 	};
-	
+
 	return DragList;
 })();
