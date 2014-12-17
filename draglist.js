@@ -1,5 +1,9 @@
 window.DragList = (function() {
 	'use strict';
+	
+	// state classes
+	var MOVING_CLASS = 'dl-moving';
+	var OVER_CLASS = 'dl-over';
 
 	// helpers
 
@@ -20,8 +24,6 @@ window.DragList = (function() {
 
 	var DragList = function(options) {
 		// attach option data to this
-		this.movingClass = options.movingClass || 'dl-moving';
-		this.overClass = options.overClass || 'dl-over';
 		this.handleSelector = options.handleSelector || 'dl-handle';
 		this.callback = options.callback || null;
 
@@ -56,18 +58,18 @@ window.DragList = (function() {
 
 			e.dataTransfer.effectAllowed = 'move';
 			thisDragList.curSrcEl = this;
-			this.classList.add(thisDragList.movingClass);
+			this.classList.add(MOVING_CLASS);
 		});
 
 		on(itemEl, 'dragover', function onItemElDragOver(e) {
 			e.preventDefault();
 			e.dataTransfer.dropEffect = 'move';
-			this.classList.add(thisDragList.overClass);
+			this.classList.add(OVER_CLASS);
 		});
 
 		// this also fires when a child node is dragged over
 		on(itemEl, 'dragleave', function onItemElDragLeave(e) {
-			this.classList.remove(thisDragList.overClass);
+			this.classList.remove(OVER_CLASS);
 		});
 
 		on(itemEl, 'drop', function onItemElDrop(e) {
@@ -86,11 +88,11 @@ window.DragList = (function() {
 		});
 
 		on(itemEl, 'dragend', function onItemElDragEnd() {
-			this.classList.remove(thisDragList.movingClass);
+			this.classList.remove(MOVING_CLASS);
 
 			// remove hover styles from every item
 			[].forEach.call(thisDragList.itemEls, function(itemEl) {
-				itemEl.classList.remove(thisDragList.overClass);
+				itemEl.classList.remove(OVER_CLASS);
 			});
 
 			// reset curSrcEl (no element is being dragged anymore)
