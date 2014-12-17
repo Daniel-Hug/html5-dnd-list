@@ -23,7 +23,7 @@ window.DragList = (function() {
 		this.movingClass = options.movingClass || 'dl-moving';
 		this.overClass = options.overClass || 'dl-over';
 		this.handleSelector = options.handleSelector || 'dl-handle';
-		this.afterSwitch = options.afterSwitch || null;
+		this.callback = options.callback || null;
 
 		// make each element draggable, add to this.itemEls, and set up events
 		this.itemEls = [];
@@ -99,7 +99,8 @@ window.DragList = (function() {
 				swapNodes(thisDragList.curSrcEl, this);
 
 				// callback
-				if (thisDragList.afterSwitch) thisDragList.afterSwitch(thisDragList.curSrcEl, this);
+				if (thisDragList.callback)
+					thisDragList.callback(thisDragList.curSrcEl, this);
 			}
 		}
 
