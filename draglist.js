@@ -47,9 +47,6 @@ window.DragList = (function() {
 
 		this.curSrcEl = null;
 		on(itemEl, 'dragstart', function onItemElDragStart(e) {
-			/*jshint validthis:true*/
-			// this/e.target is itemEl being dragged.
-
 			// if handle exists don't do anything if it wasn't last clicked
 			var handle = this.querySelector(thisDragList.handleSelector);
 			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
@@ -58,15 +55,11 @@ window.DragList = (function() {
 			}
 
 			e.dataTransfer.effectAllowed = 'move';
-
-			// this/e.target is the source node.
 			thisDragList.curSrcEl = this;
-
 			this.classList.add(thisDragList.movingClass);
 		});
 
 		on(itemEl, 'dragover', function onItemElDragOver(e) {
-			/*jshint validthis:true*/
 			e.preventDefault();
 			e.dataTransfer.dropEffect = 'move';
 			this.classList.add(thisDragList.overClass);
@@ -74,14 +67,10 @@ window.DragList = (function() {
 
 		// this also fires when a child node is dragged over
 		on(itemEl, 'dragleave', function onItemElDragLeave(e) {
-			/*jshint validthis:true*/
 			this.classList.remove(thisDragList.overClass);
 		});
 
 		on(itemEl, 'drop', function onItemElDrop(e) {
-			/*jshint validthis:true*/
-			// this/e.target is current target element.
-
 			if (e.stopPropagation) {
 				e.stopPropagation(); // stops the browser from redirecting.
 			}
@@ -97,9 +86,6 @@ window.DragList = (function() {
 		});
 
 		on(itemEl, 'dragend', function onItemElDragEnd() {
-			/*jshint validthis:true*/
-			// this/e.target is the old source el.
-
 			this.classList.remove(thisDragList.movingClass);
 
 			// remove hover styles from every item
