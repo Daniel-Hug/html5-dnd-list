@@ -25,7 +25,7 @@ window.DragList = (function() {
 		this.handleSelector = options.handleSelector || 'dl-handle';
 		this.callback = options.callback || null;
 
-		// make each element draggable, add to this.itemEls, and set up events
+		// make each element draggable, add them to this.itemEls, and set up events
 		this.itemEls = [];
 		[].forEach.call(options.itemEls, this.addItem, this);
 	};
@@ -35,7 +35,6 @@ window.DragList = (function() {
 		itemEl.draggable = true;
 		on(itemEl, 'mousedown', handleMouseDown);
 		on(itemEl, 'dragstart', handleDragStart);
-		on(itemEl, 'dragenter', handleDragEnter);
 		on(itemEl, 'dragover', handleDragOver);
 		on(itemEl, 'dragleave', handleDragLeave);
 		on(itemEl, 'drop', handleDrop);
@@ -74,10 +73,6 @@ window.DragList = (function() {
 			e.preventDefault();
 			e.dataTransfer.dropEffect = 'move';
 			this.classList.add(thisDragList.overClass);
-		}
-
-		// this also fires when a child node is dragged over
-		function handleDragEnter() {
 		}
 
 		// this aksi fires when a child node is dragged over
