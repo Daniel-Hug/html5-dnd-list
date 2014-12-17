@@ -9,15 +9,25 @@
 	-webkit-user-drag: element;
 }
 
-.dl-item {
-	/* box model */
-	float: left;
-	height: 150px;
-	width: 150px;
-	border: 2px solid #444;
-	margin-right: 5px;
-	margin-bottom: 30px;
+.cols {
+	overflow: hidden;
+}
 
+.cols .dl-drop-area, .cols .dl-item {
+	/* box model */
+	box-sizing: border-box;
+	float: left;
+	width: 150px;
+	height: 150px;
+	border: 2px solid #444;
+	margin: 0 5px 30px 0;
+}
+
+.cols .dl-drop-area {
+	border: 6px dashed #444;
+}
+
+.cols .dl-item {
 	/* style */
 	background-color: #ccc;
 	border-radius: 10px;
@@ -26,7 +36,11 @@
 	overflow: hidden;
 }
 
-.dl-item header {
+.cols .dl-over {
+	border: 2px dashed #000;
+}
+
+.cols .dl-item header {
 	/* box model */
 	padding: 5px;
 	border-bottom: 1px solid #ddd;
@@ -39,20 +53,7 @@
 	background: #444;
 }
 
-.dl-item {
-	transition: transform 0.2s ease-out;
-}
-
-.dl-item.dl-over {
-	border: 2px dashed #000;
-}
-
-.dl-item.dl-moving {
-	opacity: 0.25;
-	transform: scale(0.8);
-}
-
-.dl-item .count {
+.cols .dl-item .count {
 	padding-top: 15px;
 	font-weight: bold;
 	text-shadow: #fff 0 1px;
