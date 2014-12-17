@@ -33,6 +33,9 @@ window.DragList = (function() {
 	DragList.prototype.addItem = function(itemEl) {
 		this.itemEls.push(itemEl);
 		itemEl.draggable = true;
+ 
+		// cache this DragList instance for use in handlers
+		var thisDragList = this;
 
 
 		// itemEl handlers
@@ -43,13 +46,13 @@ window.DragList = (function() {
 		});
 
 		this.curSrcEl = null;
-		var thisDragList = this;
 		on(itemEl, 'dragstart', function onItemElDragStart(e) {
 			/*jshint validthis:true*/
+			// this/e.target is itemEl being dragged.
 
 			// if handle exists don't do anything if it wasn't last clicked
 			var handle = this.querySelector(thisDragList.handleSelector);
-			if (handle && !handle.contains(clickedEl)) {
+			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
 				e.preventDefault();
 				return;
 			}
@@ -96,6 +99,7 @@ window.DragList = (function() {
 		on(itemEl, 'dragend', function onItemElDragEnd() {
 			/*jshint validthis:true*/
 			// this/e.target is the old source el.
+
 			this.classList.remove(thisDragList.movingClass);
 
 			// remove hover styles from every item
