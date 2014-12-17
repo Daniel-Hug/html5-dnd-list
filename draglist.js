@@ -95,11 +95,16 @@ window.DragList = (function() {
 
 		on(itemEl, 'dragend', function onItemElDragEnd() {
 			/*jshint validthis:true*/
-			// this/e.target is the source node.
+			// this/e.target is the old source el.
 			this.classList.remove(thisDragList.movingClass);
+
+			// remove hover styles from every item
 			[].forEach.call(thisDragList.itemEls, function(itemEl) {
 				itemEl.classList.remove(thisDragList.overClass);
 			});
+
+			// reset curSrcEl (no element is being dragged anymore)
+			thisDragList.curSrcEl = null;
 		});
 	};
 
