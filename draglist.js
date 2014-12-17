@@ -34,6 +34,8 @@ window.DragList = (function() {
 	// exported global constructor
 
 	var DragList = function(options) {
+		options = options || {};
+
 		// attach option data to this
 		this.handleSelector = options.handleSelector || 'dl-handle';
 		this.action = options.action || 'move';
@@ -42,7 +44,7 @@ window.DragList = (function() {
 
 		// make each element draggable, add them to this.itemEls, and set up events
 		this.itemEls = [];
-		[].forEach.call(options.itemEls, this.addItem, this);
+		[].forEach.call(options.itemEls || [], this.addItem, this);
 	};
 
 	DragList.prototype.addItem = function(itemEl) {
