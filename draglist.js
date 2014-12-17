@@ -30,16 +30,16 @@ window.DragList = (function() {
 		[].forEach.call(options.itemEls, this.addItem, this);
 	};
 
-	DragList.prototype.addItem = function(el) {
-		this.itemEls.push(el);
-		el.draggable = true;
-		on(el, 'mousedown', handleMouseDown);
-		on(el, 'dragstart', handleDragStart);
-		on(el, 'dragenter', handleDragEnter);
-		on(el, 'dragover', handleDragOver);
-		on(el, 'dragleave', handleDragLeave);
-		on(el, 'drop', handleDrop);
-		on(el, 'dragend', handleDragEnd);
+	DragList.prototype.addItem = function(itemEl) {
+		this.itemEls.push(itemEl);
+		itemEl.draggable = true;
+		on(itemEl, 'mousedown', handleMouseDown);
+		on(itemEl, 'dragstart', handleDragStart);
+		on(itemEl, 'dragenter', handleDragEnter);
+		on(itemEl, 'dragover', handleDragOver);
+		on(itemEl, 'dragleave', handleDragLeave);
+		on(itemEl, 'drop', handleDrop);
+		on(itemEl, 'dragend', handleDragEnd);
 
 
 		// handlers
@@ -107,8 +107,8 @@ window.DragList = (function() {
 			/*jshint validthis:true*/
 			// this/e.target is the source node.
 			this.classList.remove(thisDragList.movingClass);
-			[].forEach.call(thisDragList.itemEls, function(el) {
-				el.classList.remove(thisDragList.overClass);
+			[].forEach.call(thisDragList.itemEls, function(itemEl) {
+				itemEl.classList.remove(thisDragList.overClass);
 			});
 		}
 	};
