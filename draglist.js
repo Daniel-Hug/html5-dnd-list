@@ -33,24 +33,18 @@ window.DragList = (function() {
 	DragList.prototype.addItem = function(itemEl) {
 		this.itemEls.push(itemEl);
 		itemEl.draggable = true;
-		on(itemEl, 'mousedown', handleMouseDown);
-		on(itemEl, 'dragstart', handleDragStart);
-		on(itemEl, 'dragover', handleDragOver);
-		on(itemEl, 'dragleave', handleDragLeave);
-		on(itemEl, 'drop', handleDrop);
-		on(itemEl, 'dragend', handleDragEnd);
 
 
-		// handlers
+		// itemEl handlers
 
 		var clickedEl = null;
-		function handleMouseDown(e) {
+		on(itemEl, 'mousedown', function onItemElMouseDown(e) {
 			clickedEl = e.target;
-		}
+		});
 
 		this.curSrcEl = null;
 		var thisDragList = this;
-		function handleDragStart(e) {
+		on(itemEl, 'dragstart', function onItemElDragStart(e) {
 			/*jshint validthis:true*/
 
 			// if handle exists don't do anything if it wasn't last clicked
@@ -66,22 +60,22 @@ window.DragList = (function() {
 			thisDragList.curSrcEl = this;
 
 			this.classList.add(thisDragList.movingClass);
-		}
+		});
 
-		function handleDragOver(e) {
+		on(itemEl, 'dragover', function onItemElDragOver(e) {
 			/*jshint validthis:true*/
 			e.preventDefault();
 			e.dataTransfer.dropEffect = 'move';
 			this.classList.add(thisDragList.overClass);
-		}
+		});
 
-		// this aksi fires when a child node is dragged over
-		function handleDragLeave(e) {
+		// this also fires when a child node is dragged over
+		on(itemEl, 'dragleave', function onItemElDragLeave(e) {
 			/*jshint validthis:true*/
 			this.classList.remove(thisDragList.overClass);
-		}
+		});
 
-		function handleDrop(e) {
+		on(itemEl, 'drop', function onItemElDrop(e) {
 			/*jshint validthis:true*/
 			// this/e.target is current target element.
 
@@ -97,16 +91,16 @@ window.DragList = (function() {
 				if (thisDragList.callback)
 					thisDragList.callback(thisDragList.curSrcEl, this);
 			}
-		}
+		});
 
-		function handleDragEnd() {
+		on(itemEl, 'dragend', function onItemElDragEnd() {
 			/*jshint validthis:true*/
 			// this/e.target is the source node.
 			this.classList.remove(thisDragList.movingClass);
 			[].forEach.call(thisDragList.itemEls, function(itemEl) {
 				itemEl.classList.remove(thisDragList.overClass);
 			});
-		}
+		});
 	};
 
 	return DragList;
