@@ -5,6 +5,8 @@ window.DragList = (function() {
 	var MOVING_CLASS = 'dl-moving';
 	var OVER_CLASS = 'dl-over';
 
+
+
 	// helpers
 
 	function arrayRemove(array, item) {
@@ -37,7 +39,7 @@ window.DragList = (function() {
 		options = options || {};
 
 		// attach option data to this
-		this.handleSelector = options.handleSelector || 'dl-handle';
+		this.handleSelector = options.handleSelector || '.dl-handle';
 		this.action = options.action || 'move';
 		this.ondrop = options.ondrop || null;
 		this.dropAreaEl = null;
