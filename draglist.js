@@ -39,7 +39,7 @@ window.DragList = (function() {
 		// attach option data to this
 		this.handleSelector = options.handleSelector || 'dl-handle';
 		this.action = options.action || 'move';
-		this.callback = options.callback || null;
+		this.ondrop = options.ondrop || null;
 		this.dropAreaEl = null;
 
 		// make each element draggable, add them to this.itemEls, and set up events
@@ -73,9 +73,9 @@ window.DragList = (function() {
 					e.stopPropagation(); // stops the browser from redirecting.
 				}
 
-				// callback
-				if (thisDragList.callback)
-					thisDragList.callback(thisDragList.curSrcEl);
+				// ondrop callback
+				if (thisDragList.ondrop)
+					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
 			});
 		}
 
@@ -118,6 +118,7 @@ window.DragList = (function() {
 				var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
 				// move dropAreaEl
 				parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
+
 			}
 		});
 
@@ -136,9 +137,9 @@ window.DragList = (function() {
 				if (thisDragList.curSrcEl !== this) {
 					swapNodes(thisDragList.curSrcEl, this);
 
-					// callback
-					if (thisDragList.callback)
-						thisDragList.callback(thisDragList.curSrcEl, this);
+					// ondrop callback
+					if (thisDragList.ondrop)
+						thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
 				}
 			});
 		}
