@@ -69,9 +69,7 @@ window.DragList = (function() {
 			});
 
 			on(this.dropAreaEl, 'drop', function(e) {
-				if (e.stopPropagation) {
-					e.stopPropagation(); // stops the browser from redirecting.
-				}
+				e.stopPropagation(); // stops the browser from redirecting.
 
 				// ondrop callback
 				if (thisDragList.ondrop)
@@ -129,18 +127,16 @@ window.DragList = (function() {
 			});
 
 			on(itemEl, 'drop', function(e) {
-				if (e.stopPropagation) {
-					e.stopPropagation(); // stops the browser from redirecting.
-				}
+				e.stopPropagation(); // stops the browser from redirecting.
 
 				// Don't do anything if we're dropping on the same item we're dragging.
-				if (thisDragList.curSrcEl !== this) {
-					swapNodes(thisDragList.curSrcEl, this);
+				if (thisDragList.curSrcEl === this) return;
 
-					// ondrop callback
-					if (thisDragList.ondrop)
-						thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
-				}
+				swapNodes(thisDragList.curSrcEl, this);
+
+				// ondrop callback
+				if (thisDragList.ondrop)
+					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
 			});
 		}
 
