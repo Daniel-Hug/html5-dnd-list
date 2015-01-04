@@ -138,7 +138,7 @@ window.DragList = (function() {
 
 				// ondrop callback
 				if (thisDragList.ondrop)
-					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
+					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl, this);
 			});
 		}
 
