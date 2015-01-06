@@ -114,11 +114,10 @@ window.DragList = (function() {
 				// replace element being dragged with dropAreaEl
 				parent.replaceChild(dropAreaEl, this);
 			} else {
+				// move dropAreaEl
 				var targetI = [].indexOf.call(parent.children, this);
 				var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
-				// move dropAreaEl
 				parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
-
 			}
 		});
 
