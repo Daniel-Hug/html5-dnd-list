@@ -102,11 +102,19 @@ window.DragList = (function() {
 				this.classList.add(MOVING_CLASS);
 		});
 
-		on(itemEl, 'dragover', thisDragList.action === 'switch' ? function(e) {
+		on(itemEl, 'dragover', this.action === 'switch' ? function(e) {
+			// make sure item we're dragging is from this list
+			if (!thisDragList.curSrcEl) return;
+
+			// allow drop
 			e.preventDefault();
+
 			e.dataTransfer.dropEffect = 'move';
 			this.classList.add(OVER_CLASS);
 		} : function(e) {
+			// make sure item we're dragging is from this list
+			if (!thisDragList.curSrcEl) return;
+
 			var dropAreaEl = thisDragList.dropAreaEl;
 			var parent = this.parentNode;
 
