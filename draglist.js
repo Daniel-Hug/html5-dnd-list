@@ -53,6 +53,7 @@ window.DragList = (function() {
 		this.itemEls.push(itemEl);
 		itemEl.draggable = true;
 		itemEl.classList.add('dl-item');
+		var handle = itemEl.querySelector(this.handleSelector);
 
 		// cache this DragList instance for use in handlers
 		var thisDragList = this;
@@ -90,7 +91,6 @@ window.DragList = (function() {
 		this.curSrcEl = null;
 		on(itemEl, 'dragstart', function(e) {
 			// if handle exists don't do anything if it wasn't last clicked
-			var handle = this.querySelector(thisDragList.handleSelector);
 			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
 				e.preventDefault();
 				return;
@@ -111,7 +111,7 @@ window.DragList = (function() {
 
 			e.dataTransfer.dropEffect = 'move';
 			this.classList.add(OVER_CLASS);
-		} : function(e) {
+		} : function() {
 			// make sure item we're dragging is from this list
 			if (!thisDragList.curSrcEl) return;
 
@@ -131,7 +131,7 @@ window.DragList = (function() {
 
 		if (this.action === 'switch') {
 			// this also fires when a child node is dragged over
-			on(itemEl, 'dragleave', function(e) {
+			on(itemEl, 'dragleave', function() {
 				this.classList.remove(OVER_CLASS);
 			});
 
