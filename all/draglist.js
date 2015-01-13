@@ -100,6 +100,12 @@ window.DragList = (function() {
 			thisDragList.curSrcEl = this;
 			if (thisDragList.action === 'switch')
 				this.classList.add(MOVING_CLASS);
+			else {
+				// replace element being dragged with dropAreaEl (must be async)
+				setTimeout(function() {
+					itemEl.parentNode.replaceChild(thisDragList.dropAreaEl, itemEl);
+				}, 0);
+			}
 		});
 
 		on(itemEl, 'dragover', this.action === 'switch' ? function(e) {
@@ -118,15 +124,10 @@ window.DragList = (function() {
 			var dropAreaEl = thisDragList.dropAreaEl;
 			var parent = this.parentNode;
 
-			if (this === thisDragList.curSrcEl) {
-				// replace element being dragged with dropAreaEl
-				parent.replaceChild(dropAreaEl, this);
-			} else {
-				// move dropAreaEl
-				var targetI = [].indexOf.call(parent.children, this);
-				var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
-				parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
-			}
+			// move dropAreaEl
+			var targetI = [].indexOf.call(parent.children, this);
+			var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
+			parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
 		});
 
 		if (this.action === 'switch') {
