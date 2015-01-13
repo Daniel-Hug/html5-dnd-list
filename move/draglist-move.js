@@ -83,7 +83,6 @@ window.DragList = (function() {
 		on(itemEl, 'dragstart', function(e) {
 			// if handle exists don't do anything if it wasn't last clicked
 			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
-				e.preventDefault();
 				return;
 			}
 
