@@ -8,22 +8,33 @@
 <body>
 	<h1>HTML5 dnd list ordering</h1>
 
+
 	<h2>draggable <code>&lt;div&gt;</code>s with handles, action = switch</h2>
-	<div class="cols">
+	<div class="cols switch1">
 		<div data-col-moves="0"><header>A</header> </div>
 		<div data-col-moves="0"><header>B</header> </div>
 		<div data-col-moves="0"><header>C</header> </div>
 	</div>
 
+
+	<h2>draggable <code>&lt;div&gt;</code>s with handles, action = move</h2>
+	<div class="cols move1">
+		<div data-col-moves="0"><header>A</header> </div>
+		<div data-col-moves="0"><header>B</header> </div>
+		<div data-col-moves="0"><header>C</header> </div>
+	</div>
+
+
 	<h2>draggable list items without handles, action = move</h2>
-	<ol class="groceries">
+	<ol class="groceries move2">
 		<li>butter</li>
 		<li>milk</li>
 		<li>eggs</li>
 	</ol>
 
+
 	<!-- js -->
-	<script src="draglist.js"></script>
+	<script src="../../draglist.js"></script>
 	<script src="demo.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
-var colsEl = document.querySelector('.cols');
 var colsDragList = new DragList({
-	itemEls: colsEl.children,
-	handleSelector: 'header',
+	itemEls: document.querySelector('.switch1').children,
+	handleSelector: ':scope > header',
 	ondrop: function(srcEl) {
 		// Set number of times the column has been moved.
 		var newCount = parseInt(srcEl.getAttribute('data-col-moves')) + 1;
@@ -11,6 +10,18 @@ var colsDragList = new DragList({
 	action: 'switch'
 });
 
+var colsDragList2 = new DragList({
+	itemEls: document.querySelector('.move1').children,
+	handleSelector: ':scope > header',
+	ondrop: function(srcEl) {
+		// Set number of times the column has been moved.
+		var newCount = parseInt(srcEl.getAttribute('data-col-moves')) + 1;
+		srcEl.setAttribute('data-col-moves', newCount);
+		srcEl.lastChild.data = 'moves: ' + newCount;
+	},
+	action: 'move'
+});
+
 var groceriesDragList = new DragList({
-	itemEls: document.querySelectorAll('.groceries li')
+	itemEls: document.querySelectorAll('.move2 li')
 });
