@@ -25,10 +25,6 @@
 	overflow: hidden;
 }
 
-.cols .dl-over {
-	border: 2px dashed #000;
-}
-
 .cols .dl-item header {
 	/* box model */
 	padding: 5px;
