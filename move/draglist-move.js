@@ -96,9 +96,13 @@ window.DragList = (function() {
 			}, 0);
 		});
 
-		on(itemEl, 'dragover', function() {
-			// make sure item we're dragging is from this list
+		var dragDepth = 0;
+		on(itemEl, 'dragenter', function() {
+			// make sure item being dragged is in this draglist
 			if (!thisDragList.curSrcEl) return;
+
+			// make sure drag started from outside
+			if (dragDepth++) return;
 
 			var dropAreaEl = thisDragList.dropAreaEl;
 			var parent = this.parentNode;
@@ -107,6 +111,14 @@ window.DragList = (function() {
 			var targetI = [].indexOf.call(parent.children, this);
 			var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
 			parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
+		});
+
+		on(itemEl, 'dragleave', function() {
+			// make sure item being dragged is in this draglist
+			if (!thisDragList.curSrcEl) return;
+			
+			// make sure it was dragged all the way out
+			if (--dragDepth) return;
 		});
 
 		on(itemEl, 'dragend', function() {
