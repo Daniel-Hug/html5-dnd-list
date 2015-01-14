@@ -107,29 +107,18 @@ window.DragList = (function() {
 			}
 		});
 
-		on(itemEl, 'dragover', this.action === 'switch' ? function(e) {
-			// make sure item we're dragging is from this list
-			if (!thisDragList.curSrcEl) return;
-
-			// allow drop
-			e.preventDefault();
-
-			e.dataTransfer.dropEffect = 'move';
-			this.classList.add(OVER_CLASS);
-		} : function() {
-			// make sure item we're dragging is from this list
-			if (!thisDragList.curSrcEl) return;
-
-			var dropAreaEl = thisDragList.dropAreaEl;
-			var parent = this.parentNode;
-
-			// move dropAreaEl
-			var targetI = [].indexOf.call(parent.children, this);
-			var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
-			parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
-		});
-
 		if (this.action === 'switch') {
+			on(itemEl, 'dragover', function(e) {
+				// make sure item being dragged is in this draglist
+				if (!thisDragList.curSrcEl) return;
+
+				// allow drop
+				e.preventDefault();
+
+				e.dataTransfer.dropEffect = 'move';
+				this.classList.add(OVER_CLASS);
+			});
+
 			// this also fires when a child node is dragged over
 			on(itemEl, 'dragleave', function() {
 				this.classList.remove(OVER_CLASS);
@@ -146,6 +135,31 @@ window.DragList = (function() {
 				// ondrop callback
 				if (thisDragList.ondrop)
 					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl, this);
+			});
+		} else {
+			var dragDepth = 0;
+			on(itemEl, 'dragenter', function() {
+				// make sure item being dragged is in this draglist
+				if (!thisDragList.curSrcEl) return;
+
+				// make sure drag started from outside
+				if (dragDepth++) return;
+
+				var dropAreaEl = thisDragList.dropAreaEl;
+				var parent = this.parentNode;
+
+				// move dropAreaEl
+				var targetI = [].indexOf.call(parent.children, this);
+				var visibleItemEls = arrayExcept(parent.children, dropAreaEl);
+				parent.insertBefore(dropAreaEl, visibleItemEls[targetI]);
+			});
+
+			on(itemEl, 'dragleave', function() {
+				// make sure item being dragged is in this draglist
+				if (!thisDragList.curSrcEl) return;
+				
+				// make sure it was dragged all the way out
+				if (--dragDepth) return;
 			});
 		}
 
