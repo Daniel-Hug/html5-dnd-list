@@ -20,7 +20,8 @@ var tasksDragList = new DragList({
  - **`action` (string):** 'move' (default) or 'switch'; the type of drag ui to impliment
  - **`onDrop` (function):** a callback to fire after element is dropped
     - First argument passed is the dropped element.
-    - If `action='switch'` second argument is the element that was switched with the dropped element.
+    - If `action` option is set to `'switch'`, the second argument passed is the element that was switched with the dropped element.
+    - If `action` is `'move'` the second and third arguments passed are the dragged item's original parent element and original index respectively.
 
 
 ## Add new items

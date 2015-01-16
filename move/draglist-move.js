@@ -1,8 +1,5 @@
 window.DragList = (function() {
 	'use strict';
-	
-	// state classes
-	var OVER_CLASS = 'dl-over';
 
 
 
