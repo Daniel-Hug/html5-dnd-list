@@ -10,6 +10,7 @@
 			var newCount = parseInt(srcEl.getAttribute('data-col-moves')) + 1;
 			srcEl.setAttribute('data-col-moves', newCount);
 			srcEl.lastChild.data = 'moves: ' + newCount;
+			console.log('args: ', arguments);
 		},
 		action: 'move'
 	});

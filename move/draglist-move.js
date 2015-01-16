@@ -23,6 +23,11 @@ window.DragList = (function() {
 		target.addEventListener(type, callback, false);
 	}
 
+	function getElIndex(el) {
+		for (var i = 0; (el = el.previousElementSibling); i++);
+		return i;
+	}
+
 
 
 	// exported global constructor
@@ -64,10 +69,7 @@ window.DragList = (function() {
 
 			on(this.dropAreaEl, 'drop', function(e) {
 				e.stopPropagation(); // stops the browser from redirecting.
-
-				// ondrop callback
-				if (thisDragList.ondrop)
-					thisDragList.ondrop.call(thisDragList, thisDragList.curSrcEl);
+				thisDragList.dropped = true;
 			});
 		}
 
@@ -80,6 +82,7 @@ window.DragList = (function() {
 		});
 
 		this.curSrcEl = null;
+		this.curSrcElI = -1;
 		on(itemEl, 'dragstart', function(e) {
 			// if handle exists don't do anything if it wasn't last clicked
 			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
@@ -88,8 +91,9 @@ window.DragList = (function() {
 
 			e.dataTransfer.effectAllowed = 'move';
 			thisDragList.curSrcEl = this;
+			thisDragList.curSrcElI = getElIndex(this);
 
-			// replace element being dragged with dropAreaEl (must be async)
+			// replace element being dragged with dropAreaEl (must be async to allow for drag image to be created)
 			setTimeout(function() {
 				itemEl.parentNode.replaceChild(thisDragList.dropAreaEl, itemEl);
 			}, 0);
@@ -113,11 +117,7 @@ window.DragList = (function() {
 		});
 
 		on(itemEl, 'dragleave', function() {
-			// make sure item being dragged is in this draglist
-			if (!thisDragList.curSrcEl) return;
-			
-			// make sure it was dragged all the way out
-			if (--dragDepth) return;
+			if (thisDragList.curSrcEl) dragDepth--;
 		});
 
 		on(itemEl, 'dragend', function() {
@@ -125,13 +125,17 @@ window.DragList = (function() {
 			var dropAreaEl = thisDragList.dropAreaEl;
 			dropAreaEl.parentNode.replaceChild(this, dropAreaEl);
 
-			// remove hover styles from every item
-			[].forEach.call(thisDragList.itemEls, function(itemEl) {
-				itemEl.classList.remove(OVER_CLASS);
-			});
+			if (thisDragList.curSrcElI !== getElIndex(this)) {
+				// ondrop callback
+				if (thisDragList.dropped && thisDragList.ondrop) {
+					delete thisDragList.dropped;
+					thisDragList.ondrop.call(thisDragList, this, this.parentNode, thisDragList.curSrcElI);
+				}
+			}
 
 			// reset curSrcEl (no element is being dragged anymore)
 			thisDragList.curSrcEl = null;
+			thisDragList.curSrcElI = -1;
 		});
 	};
 
