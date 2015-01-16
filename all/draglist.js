@@ -92,6 +92,7 @@ window.DragList = (function() {
 
 		this.curSrcEl = null;
 		this.curSrcElI = -1;
+		this.curSrcElParent = null;
 		on(itemEl, 'dragstart', function(e) {
 			// if handle exists don't do anything if it wasn't last clicked
 			if (handle && handle !== clickedEl && !handle.contains(clickedEl)) {
@@ -101,6 +102,7 @@ window.DragList = (function() {
 			e.dataTransfer.effectAllowed = 'move';
 			thisDragList.curSrcEl = this;
 			thisDragList.curSrcElI = getElIndex(this);
+			thisDragList.curSrcElParent = this.parentNode;
 			if (thisDragList.action === 'switch')
 				this.classList.add(MOVING_CLASS);
 			else {
@@ -176,13 +178,14 @@ window.DragList = (function() {
 				// ondrop callback
 				if (thisDragList.dropped && thisDragList.ondrop) {
 					delete thisDragList.dropped;
-					thisDragList.ondrop.call(thisDragList, this, this.parentNode, thisDragList.curSrcElI);
+					thisDragList.ondrop.call(thisDragList, this, thisDragList.curSrcElParent, thisDragList.curSrcElI);
 				}
 			}
 
 			// reset curSrcEl (no element is being dragged anymore)
 			thisDragList.curSrcEl = null;
 			thisDragList.curSrcElI = -1;
+			thisDragList.curSrcElParent = null;
 		});
 	};
 
