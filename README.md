@@ -35,4 +35,4 @@ tasksDragList.addItem(element)
 
 All items are given a `dl-item` class. When being dragged they also have a `dl-moving` class, and when being dragged over, they have a `dl-over` class.
 
-Harness these to create your own drag styles. Take inspiration from [demo.css](https://github.com/Daniel-Hug/html5-dnd-list/blob/gh-pages/demo.css).
+Harness these to create your own drag styles. Take inspiration from [demo.css](https://github.com/Daniel-Hug/html5-dnd-list/blob/gh-pages/all/demo.css).
